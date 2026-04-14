@@ -10,6 +10,15 @@ $stmt->execute([$id]);
 $article = $stmt->fetch();
 
 if (!$article) die('Article introuvable.');
+
+// Récupération de toutes les TVs
+$stmtTVs = $pdo->query('SELECT * FROM TV');
+$tvs = $stmtTVs->fetchAll();
+
+// Récupération des TVs déjà associées à cette information
+$stmtAssoc = $pdo->prepare('SELECT id_tv FROM AffichageInfo WHERE id_info = ?');
+$stmtAssoc->execute([$id]);
+$tvsAssociees = array_column($stmtAssoc->fetchAll(), 'id_tv');
 ?>
 
 <!DOCTYPE html>
@@ -51,6 +60,17 @@ if (!$article) die('Article introuvable.');
         <label for="date_fin">Date de fin :</label>
         <input type="date" id="date_fin" name="date_fin"
                value="<?= $article['date_fin'] ?>" required>
+
+        <fieldset>
+            <legend>Afficher sur les TVs :</legend>
+            <?php foreach ($tvs as $tv): ?>
+                <label>
+                    <input type="checkbox" name="tvs[]" value="<?= (int)$tv['id'] ?>"
+                        <?= in_array($tv['id'], $tvsAssociees) ? 'checked' : '' ?>>
+                    <?= htmlspecialchars($tv['nom']) ?>
+                </label>
+            <?php endforeach; ?>
+        </fieldset>
 
         <button type="submit">Enregistrer les modifications</button>
     </form>

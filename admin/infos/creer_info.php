@@ -18,7 +18,7 @@
         <input type="url" id="image" name="image" placeholder="https://exemple.com/image.jpg">
 
         <label>
-            <input type="checkbox" name="plein_ecran" value="0">
+            <input type="checkbox" name="plein_ecran" value="1">
             Afficher l'image en plein écran
         </label>
 
@@ -27,6 +27,22 @@
 
         <label for="date_fin">Date de fin :</label>
         <input type="date" id="date_fin" name="date_fin" required>
+
+        <?php
+        require '../../bdd/db.php';
+        $stmt = $pdo->query("SELECT * FROM TV");
+        $tvs  = $stmt->fetchAll();
+        ?>
+
+        <fieldset>
+            <legend>Afficher sur les TVs :</legend>
+            <?php foreach ($tvs as $tv): ?>
+                <label>
+                    <input type="checkbox" name="tvs[]" value="<?= (int)$tv['id'] ?>">
+                    <?= htmlspecialchars($tv['nom']) ?>
+                </label>
+            <?php endforeach; ?>
+        </fieldset>
 
         <button type="submit">Envoyer</button>
     </form>
