@@ -1,7 +1,7 @@
 <?php
 require '../../bdd/db.php';
 try {
-    $stmt = $pdo->prepare("SELECT * FROM Information WHERE date_debut <= NOW() AND date_fin >= NOW();");
+    $stmt = $pdo->prepare("SELECT * FROM Information");
     $stmt->execute();
     $infos = $stmt->fetchAll();
 } catch (PDOException $e) {

@@ -1,5 +1,5 @@
 <?php
-require './bdd/db.php';
+require '../../bdd/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -32,15 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Erreur : la date de fin doit être postérieure à la date de début.');
     }
 
-    // Affichage / utilisation
-    echo '<h1>' . $titre . '</h1>';
-    echo '<p>' . $contenu . '</p>';
-
-    echo '<img src="' . $image . '" alt="Image de l\'article">';
-
-    echo '<p>Du ' . $debut->format('d/m/Y') . ' au ' . $fin->format('d/m/Y') . '</p>';
-    echo '<p>Plein écran : ' . ($plein_ecran ? 'Oui' : 'Non') . '</p>';
-
     $stmt = $pdo->prepare("INSERT INTO Information (titre, contenu, lien_image, image_fullscreen, date_debut, date_fin) VALUES (:titre, :contenu, :lien_image, :image_fullscreen, :date_debut, :date_fin)");
     $stmt->execute([
         ':titre'   => $titre,
@@ -51,6 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':date_fin' => $fin->format("Y-m-d")
     ]);
 
+    // Redirection après succès
+    header('Location: liste_infos.php');
+    exit;
 } else {
     die('Accès non autorisé.');
 }

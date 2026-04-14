@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$titre, $contenu, $image, $plein_ecran, $date_debut, $date_fin, $id]);
 
     // Redirection après succès
-    header('Location: ../index.html');
+    header('Location: liste_infos.php');
     exit;
 
 } else {

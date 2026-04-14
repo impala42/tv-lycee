@@ -1,5 +1,5 @@
 <?php
-require '../../bdd/db.php';
+require '../bdd/db.php';
 header('Content-Type: application/json');
 
 try {
