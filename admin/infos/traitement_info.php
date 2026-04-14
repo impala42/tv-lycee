@@ -4,8 +4,8 @@ require '../../bdd/db.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Récupération et nettoyage des données
-    $titre       = htmlspecialchars(trim($_POST['titre'] ?? ''));
-    $contenu     = htmlspecialchars(trim($_POST['contenu'] ?? ''));
+    $titre       = trim($_POST['titre'] ?? '');
+    $contenu     = trim($_POST['contenu'] ?? '');
     $image       = filter_input(INPUT_POST, 'image', FILTER_VALIDATE_URL);
     $plein_ecran = isset($_POST['plein_ecran']) ? 1 : 0;
     $date_debut  = $_POST['date_debut'] ?? '';
