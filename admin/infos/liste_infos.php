@@ -1,5 +1,5 @@
 <?php
-require '../bdd/db.php';
+require '../../bdd/db.php';
 try {
     $stmt = $pdo->prepare("SELECT * FROM Information WHERE date_debut <= NOW() AND date_fin >= NOW();");
     $stmt->execute();
@@ -15,7 +15,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin - Informations</title>
 </head>
 <body>
     <h1>Mes Informations</h1>

@@ -1,5 +1,5 @@
 <?php
-require '../bdd/db.php';
+require '../../bdd/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$titre, $contenu, $image, $plein_ecran, $date_debut, $date_fin, $id]);
 
     // Redirection après succès
-    header('Location: index.php?succes=1');
+    header('Location: ../index.html');
     exit;
 
 } else {

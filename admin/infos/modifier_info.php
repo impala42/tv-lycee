@@ -1,5 +1,5 @@
 <?php
-require '../bdd/db.php';
+require '../../bdd/db.php';
 
 // Récupération de l'article à modifier
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);

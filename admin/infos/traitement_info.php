@@ -1,5 +1,5 @@
 <?php
-require '../bdd/db.php';
+require './bdd/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
