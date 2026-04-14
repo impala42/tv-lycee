@@ -1,5 +1,5 @@
 <?php
-require '../bdd/db.php'; // $pdo est maintenant disponible
+require '../bdd/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
