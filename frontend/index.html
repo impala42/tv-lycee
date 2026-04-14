@@ -147,6 +147,8 @@
   <script>
     const DURATION = 8000;
 
+    // token de la télé (pas dingue mais j'ai pas trouvé mieux...)
+    const token = window.location.search.slice(7);
 
     const main = document.getElementById('main');
     let index = 0;
@@ -199,12 +201,13 @@
 
     // Chargement des annonces depuis infos.php
     function chargerInfos() {
-      fetch('infos.php')
+      fetch('infos.php?token='+token)
         .then(res => res.json())
         .then(data => {
           annonces = data;
           if (annonces.length === 0) return;
           render(index);
+          document.title = annonces[0].nom;
         })
         .catch(err => {
           main.innerHTML = `<p style="color:var(--muted);font-size:2vw;grid-column:1/-1;text-align:center;">Impossible de charger les annonces.</p>`;
@@ -214,7 +217,7 @@
           }, 2000);
         });
     }
-    chargerInfos()
+    chargerInfos();
     setInterval(toggle, DURATION);
 
     // Horloge

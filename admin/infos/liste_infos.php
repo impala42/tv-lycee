@@ -1,13 +1,10 @@
 <?php
 require '../../bdd/db.php';
-try {
-    $stmt = $pdo->prepare("SELECT * FROM Information");
-    $stmt->execute();
-    $infos = $stmt->fetchAll();
-} catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(['erreur' => $e->getMessage()]);
-}
+
+$stmt = $pdo->prepare("SELECT * FROM Information");
+$stmt->execute();
+$infos = $stmt->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
