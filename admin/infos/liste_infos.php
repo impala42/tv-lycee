@@ -25,6 +25,7 @@ try {
         <li>
             <?= htmlspecialchars($info['titre']) ?>
             <a href="modifier_info.php?id=<?= $info['id'] ?>">Modifier</a>
+            <a href="suppr_infos.php?id=<?= $info['id'] ?>">Supprimer</a>
         </li>
     <?php endforeach; ?>
     </ul>
