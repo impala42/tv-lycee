@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Affichage Lycée</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --rose:  #f4b8c1;
+      --mint:  #b8e8d8;
+      --lav:   #cfc4f0;
+      --sky:   #b5d9f5;
+      --white: #fdfcff;
+      --ink:   #1a1628;
+      --muted: #5a5470;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: var(--white);
+      font-family: 'Source Sans 3', sans-serif;
+    }
+
+    /* ── Fond dégradé pastel ── */
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 10% 15%,  var(--lav)  0%, transparent 65%),
+        radial-gradient(ellipse 55% 50% at 90% 80%,  var(--mint) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 55% at 82% 5%,   var(--sky)  0%, transparent 60%),
+        radial-gradient(ellipse 50% 45% at 18% 92%,  var(--rose) 0%, transparent 55%),
+        var(--white);
+      animation: breathe 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes breathe {
+      from { filter: hue-rotate(0deg)  brightness(1); }
+      to   { filter: hue-rotate(10deg) brightness(1.03); }
+    }
+
+    /* ── Layout ── */
+    .layout {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      padding: 4vh 5vw;
+      gap: 3vh;
+    }
+
+    .main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4vw;
+      align-items: center;
+      transition: opacity .6s ease;
+      min-height: 0; /* empêche le débordement dans le flex parent */
+    }
+
+    /* Fondu lors du changement */
+    .main.fading {
+      opacity: 0;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3vh;
+      padding: 2vh 0;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .body-text {
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .visual {
+      height: 70vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 2rem;
+      overflow: hidden;
+      box-shadow:
+        0 4px 20px rgba(26,22,40,.08),
+        0 20px 60px rgba(26,22,40,.12);
+    }
+
+    .card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── Footer ── */
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0; /* ne se compresse jamais */
+    }
+
+    .date-bottom, .clock {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.2rem, 2.8vw, 2.6rem);
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: .04em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg"></div>
+
+  <div class="layout">
+
+    <div class="main version-a" id="main">
+      <!-- Contenu injecté par JS -->
+    </div>
+
+    <footer>
+      <div class="date-bottom" id="date-bottom"></div>
+      <div class="clock" id="clock"></div>
+    </footer>
+
+  </div>
+
+  <script>
+    const DURATION = 8000;
+
+
+    const main = document.getElementById('main');
+    let index = 0;
+
+    function render(i) {
+      const a = annonces[i];
+      const textBlock = `
+        <section class="content">
+          <h1>${a.titre}</h1>
+          <p class="body-text">${a.contenu}</p>
+        </section>`;
+      const imageBlock = `
+        <div class="visual">
+          <div class="card-img">
+            <img src="${a.lien_image}" alt="${a.titre}" />
+          </div>
+        </div>`;
+      main.innerHTML = (i % 2 === 0)
+        ? textBlock + imageBlock
+        : imageBlock + textBlock;
+      main.className = 'main';
+
+      // Adaptation dynamique des tailles après insertion dans le DOM
+      const tLen = a.titre.length;
+      const cLen = a.contenu.length;
+
+      const tRatio = 1 - Math.min(Math.max((tLen - 10) / 70, 0), 1);
+      const tSize  = (3 + tRatio * 4).toFixed(2);
+
+      const cRatio = 1 - Math.min(Math.max((cLen - 40) / 260, 0), 1);
+      const cSize  = (1.4 + cRatio * 1.6).toFixed(2);
+
+      main.querySelector('h1').style.fontSize         = `clamp(1.6rem, ${tSize}vw, 8rem)`;
+      main.querySelector('.body-text').style.fontSize = `clamp(1rem, ${cSize}vw, 3.2rem)`;
+    }
+
+    function toggle() {
+      main.classList.add('fading');
+      setTimeout(() => {
+        index = index + 1;
+        if (index == annonces.length) {
+          chargerInfos();
+          index = 0;
+          return;
+        }
+        render(index);
+        main.classList.remove('fading');
+      }, 600);
+    }
+
+    // Chargement des annonces depuis infos.php
+    function chargerInfos() {
+      fetch('infos.php')
+        .then(res => res.json())
+        .then(data => {
+          annonces = data;
+          if (annonces.length === 0) return;
+          render(index);
+        })
+        .catch(err => {
+          main.innerHTML = `<p style="color:var(--muted);font-size:2vw;grid-column:1/-1;text-align:center;">Impossible de charger les annonces.</p>`;
+          console.error('Erreur pendant le chargement des informations.', err);
+          setTimeout(() => {
+            location.reload()
+          }, 2000);
+        });
+    }
+    chargerInfos()
+    setInterval(toggle, DURATION);
+
+    // Horloge
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function tick() {
+      const now = new Date();
+      document.getElementById('clock').textContent =
+        pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+    }
+    const opts = { weekday: 'long', day: 'numeric', month: 'long' };
+    document.getElementById('date-bottom').textContent =
+      new Date().toLocaleDateString('fr-FR', opts);
+    tick();
+    setInterval(tick, 1000);
+  </script>
+
+</body>
+</html>
