@@ -1,5 +1,5 @@
 <?php
-require 'auth_superadmin.php';
+require 'auth.php';
 require '../../bdd/db.php';
 
 // Récupération des données
