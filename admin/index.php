@@ -12,6 +12,6 @@ require "utilisateurs/auth.php";
 <body>
     <a href="infos/liste_infos.php">Informations</a>
     <a href="tv/liste_tv.php">TVs</a>
-    <a href="utilisateurs/nouveau.html">Comptes</a>
+    <a href="utilisateurs/nouveau.php">Comptes</a>
 </body>
 </html>
