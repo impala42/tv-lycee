@@ -1,3 +1,5 @@
+<?php require '../utilisateurs/auth.php'; ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

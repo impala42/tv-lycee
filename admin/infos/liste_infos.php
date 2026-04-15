@@ -1,4 +1,5 @@
 <?php
+require '../utilisateurs/auth.php';
 require '../../bdd/db.php';
 
 $stmt = $pdo->prepare("SELECT * FROM Information");

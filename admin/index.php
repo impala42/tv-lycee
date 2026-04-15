@@ -1,3 +1,7 @@
+<?php
+require "utilisateurs/auth.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,5 +12,6 @@
 <body>
     <a href="infos/liste_infos.php">Informations</a>
     <a href="tv/liste_tv.php">TVs</a>
+    <a href="utilisateurs/nouveau.html">Comptes</a>
 </body>
 </html>

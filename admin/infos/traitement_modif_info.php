@@ -1,4 +1,5 @@
 <?php
+require '../utilisateurs/auth.php';
 require '../../bdd/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
