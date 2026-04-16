@@ -32,5 +32,6 @@ $infos = $stmt->fetchAll();
 
         <button type="submit">Créer</button>
     </form>
+    <footer><a href="/tvtest/admin/index.php">Retour au Menu</a></footer>
 </body>
 </html>

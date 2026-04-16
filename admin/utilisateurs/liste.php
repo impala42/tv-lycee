@@ -25,5 +25,6 @@ $utilisateurs = $stmt->fetchAll();
         </li>
     <?php endforeach; ?>
     </ul>
+    <footer><a href="/tvtest/admin/index.php">Retour au Menu</a></footer>
 </body>
 </html>
