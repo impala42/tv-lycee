@@ -13,5 +13,5 @@ $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 $stmt = $pdo->prepare("INSERT INTO Utilisateurs (username, password) VALUES (?, ?)");
 $stmt->execute([$username, $hashedPassword]);
 
-echo "Compte créé !";
+header("Location: liste.php");
 ?>

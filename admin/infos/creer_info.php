@@ -17,7 +17,7 @@
         <textarea id="contenu" name="contenu" rows="5" required></textarea>
 
         <label for="image">Lien vers l'image :</label>
-        <input type="url" id="image" name="image" placeholder="https://exemple.com/image.jpg">
+        <input type="url" id="image" name="image" placeholder="Laisser vide si pas d'image">
 
         <label>
             <input type="checkbox" name="plein_ecran" value="1">

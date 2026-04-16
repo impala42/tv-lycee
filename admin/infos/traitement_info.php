@@ -18,10 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Erreur : le titre et le contenu sont obligatoires.');
     }
 
-    if ($image === false) {
-        die('Erreur : le lien vers l\'image n\'est pas une URL valide.');
-    }
-
     // Validation et conversion des dates
     $debut = DateTimeImmutable::createFromFormat('Y-m-d', $date_debut);
     $fin   = DateTimeImmutable::createFromFormat('Y-m-d', $date_fin);

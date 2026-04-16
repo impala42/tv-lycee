@@ -110,6 +110,17 @@
       display: block;
     }
 
+    /* ── Mode sans image ── */
+    .main.no-image {
+      grid-template-columns: 1fr;
+    }
+
+    .main.no-image .content {
+      max-width: 80vw;
+      margin: 0 auto;
+      text-align: center;
+    }
+
     /* ── Footer ── */
     footer {
       display: flex;
@@ -155,6 +166,8 @@
 
     function render(i) {
       const a = annonces[i];
+      const hasImage = a.lien_image && a.lien_image.trim() !== '';
+
       const textBlock = `
         <section class="content">
           <h1>${a.titre}</h1>
@@ -166,20 +179,26 @@
             <img src="${a.lien_image}" alt="${a.titre}" />
           </div>
         </div>`;
-      main.innerHTML = (i % 2 === 0)
-        ? textBlock + imageBlock
-        : imageBlock + textBlock;
-      main.className = 'main';
+
+      if (!hasImage) {
+        main.innerHTML = textBlock;
+        main.className = 'main no-image';
+      } else {
+        main.innerHTML = (i % 2 === 0)
+          ? textBlock + imageBlock
+          : imageBlock + textBlock;
+        main.className = 'main';
+      }
 
       // Adaptation dynamique des tailles après insertion dans le DOM
       const tLen = a.titre.length;
       const cLen = a.contenu.length;
 
       const tRatio = 1 - Math.min(Math.max((tLen - 10) / 70, 0), 1);
-      const tSize  = (3 + tRatio * 4).toFixed(2);
+      const tSize  = hasImage ? (3 + tRatio * 4).toFixed(2) : (4 + tRatio * 5).toFixed(2);
 
       const cRatio = 1 - Math.min(Math.max((cLen - 40) / 260, 0), 1);
-      const cSize  = (1.4 + cRatio * 1.6).toFixed(2);
+      const cSize  = hasImage ? (1.4 + cRatio * 1.6).toFixed(2) : (1.8 + cRatio * 2).toFixed(2);
 
       main.querySelector('h1').style.fontSize         = `clamp(1.6rem, ${tSize}vw, 8rem)`;
       main.querySelector('.body-text').style.fontSize = `clamp(1rem, ${cSize}vw, 3.2rem)`;

@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$id) die('ID invalide.');
     if (empty($titre) || empty($contenu)) die('Titre et contenu obligatoires.');
-    if ($image === false) die('URL d\'image invalide.');
 
     $debut = DateTimeImmutable::createFromFormat('Y-m-d', $date_debut);
     $fin   = DateTimeImmutable::createFromFormat('Y-m-d', $date_fin);
