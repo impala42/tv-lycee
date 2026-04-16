@@ -1,5 +1,5 @@
 <?php 
-require 'auth.php';
+require 'auth_superadmin.php';
 ?>
 
 <!DOCTYPE html>

@@ -1,5 +1,5 @@
 <?php
-require 'auth.php';
+require 'auth_superadmin.php';
 require '../../bdd/db.php';
 
 $stmt = $pdo->prepare("SELECT username, superadmin FROM Utilisateurs");
