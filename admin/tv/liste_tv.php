@@ -20,6 +20,7 @@ $infos = $stmt->fetchAll();
     <?php foreach ($infos as $info): ?>
         <li>
             <a target="_blank" href="../../frontend/index.html?token=<?= htmlspecialchars($info['token']) ?>"><?= htmlspecialchars($info['nom']) ?></a>
+            <a href="modifier_tv.php?id=<?= htmlspecialchars($info["id"]) ?>">Modifier</a>
         </li>
     <?php endforeach; ?>
     </ul>
