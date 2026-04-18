@@ -35,6 +35,10 @@ $infosAssociees = array_column($stmtAssoc->fetchAll(), 'id_info');
         <!-- On transmet l'ID dans un champ caché -->
         <input type="hidden" name="id" value="<?= $tv['id'] ?>"> 
 
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" name="nom"
+               value="<?= htmlspecialchars($tv['nom']) ?>" required>
+
         <fieldset>
             <legend>Afficher les infos sur cette TV</legend>
             <?php foreach ($infos as $info): ?>

@@ -6,9 +6,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Récupération et validation des données
     $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+    $nom = trim($_POST['nom'] ?? '');
     $infos = $_POST['infos'] ?? [];
 
     if (!$id) die('ID invalide.');
+    if (empty($nom)) die("Nom obligatoire.");
 
     // Validation des IDs des infos
     $infos = array_filter(array_map('intval', $infos));
@@ -17,6 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdo->beginTransaction();
 
     try {
+        // Mise à jour de l'information
+        $stmt = $pdo->prepare('
+            UPDATE TV
+            SET nom = ?
+            WHERE id = ?
+        ');
+        $stmt->execute([$nom, $id]);
+
         // Suppression des anciennes associations infos
         $stmtDel = $pdo->prepare('DELETE FROM AffichageInfo WHERE id_tv = ?');
         $stmtDel->execute([$id]);
