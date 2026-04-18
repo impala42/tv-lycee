@@ -121,6 +121,104 @@
       text-align: center;
     }
 
+    /* ── Slide absences ── */
+    .main.absences {
+      grid-template-columns: 1fr;
+      align-items: stretch;
+    }
+
+    .absences-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2vh;
+      width: 100%;
+    }
+
+    .absences-title {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 2.6vw, 3.2rem);
+      color: var(--ink);
+      text-align: center;
+      letter-spacing: .03em;
+      margin-bottom: 1.2vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+    }
+
+    .absences-title svg { flex-shrink: 0; }
+
+    .absence-row {
+      display: grid;
+      grid-template-columns: 1.6fr 1.2fr 1.4fr;
+      gap: 2vw;
+      align-items: center;
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(14px);
+      border-radius: 1.2rem;
+      padding: 1vh 2.5vw;
+      box-shadow:
+        0 2px 8px  rgba(26,22,40,.06),
+        0 8px 32px rgba(26,22,40,.12);
+      border-left: .7vw solid var(--lav);
+    }
+
+    .absence-prof {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 4rem);
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .absence-matiere {
+      font-size: clamp(1.2rem, 2.7vw, 3.4rem);
+      color: var(--muted);
+      font-weight: 600;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .absence-dates {
+      display: flex;
+      flex-direction: row;
+      gap: .8vw;
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+
+    .absence-date-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .absence-date-badge {
+      font-size: clamp(1.1rem, 2.3vw, 3rem);
+      font-weight: 600;
+      color: var(--ink);
+      background: rgba(207,196,240,0.35);
+      border-radius: .5rem;
+      padding: .15em .6em;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+
+    .absence-date-label {
+      font-size: clamp(.6rem, .9vw, 1.1rem);
+      font-weight: 400;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .15em;
+    }
+
     /* ── Footer ── */
     footer {
       display: flex;
@@ -157,17 +255,40 @@
 
   <script>
     const DURATION = 8000;
+    const ABSENCES_PAR_SLIDE = 4;
 
-    // token de la télé (pas dingue mais j'ai pas trouvé mieux...)
+    // token de la télé
     const token = window.location.search.slice(7);
 
     const main = document.getElementById('main');
-    let index = 0;
 
-    function render(i) {
-      const a = annonces[i];
+    let annonces  = [];
+    let absences  = [];
+    // slides = [...annonces_slides, ...absences_slides]
+    // chaque élément : { type: 'annonce'|'absence', data: ... }
+    let slides = [];
+    let index  = 0;
+
+    /* ── Helpers date ── */
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function fmtDate(str) {
+      const d = new Date(str);
+      return d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+    }
+
+    /* ── Construction du tableau de slides ── */
+    function buildSlides() {
+      slides = [];
+      annonces.forEach(a => slides.push({ type: 'annonce', data: a }));
+      for (let i = 0; i < absences.length; i += ABSENCES_PAR_SLIDE) {
+        slides.push({ type: 'absence', data: absences.slice(i, i + ABSENCES_PAR_SLIDE) });
+      }
+    }
+
+    /* ── Rendu d'une slide annonce ── */
+    function renderAnnonce(a, i) {
       const hasImage = a.lien_image && a.lien_image.trim() !== '';
-
       const textBlock = `
         <section class="content">
           <h1>${a.titre}</h1>
@@ -190,27 +311,72 @@
         main.className = 'main';
       }
 
-      // Adaptation dynamique des tailles après insertion dans le DOM
-      const tLen = a.titre.length;
-      const cLen = a.contenu.length;
-
+      const tLen  = a.titre.length;
+      const cLen  = a.contenu.length;
       const tRatio = 1 - Math.min(Math.max((tLen - 10) / 70, 0), 1);
       const tSize  = hasImage ? (3 + tRatio * 4).toFixed(2) : (4 + tRatio * 5).toFixed(2);
-
       const cRatio = 1 - Math.min(Math.max((cLen - 40) / 260, 0), 1);
       const cSize  = hasImage ? (1.4 + cRatio * 1.6).toFixed(2) : (1.8 + cRatio * 2).toFixed(2);
-
       main.querySelector('h1').style.fontSize         = `clamp(1.6rem, ${tSize}vw, 8rem)`;
       main.querySelector('.body-text').style.fontSize = `clamp(1rem, ${cSize}vw, 3.2rem)`;
     }
 
+    /* ── Rendu d'une slide absences ── */
+    function renderAbsences(group) {
+      const colors = ['var(--lav)', 'var(--mint)', 'var(--rose)', 'var(--sky)'];
+      const rows = group.map((ab, idx) => {
+        const color = colors[idx % colors.length];
+        return `
+        <div class="absence-row" style="border-left-color:${color}">
+          <div class="absence-prof">${ab.professeur}</div>
+          <div class="absence-matiere">${ab.matiere}</div>
+          <div class="absence-dates">
+            <div class="absence-date-item">
+              <div class="absence-date-label">Début</div>
+              <div class="absence-date-badge">${fmtDate(ab.date_debut)}</div>
+            </div>
+            <div class="absence-date-item">
+              <div class="absence-date-label">Fin</div>
+              <div class="absence-date-badge">${fmtDate(ab.date_fin)}</div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+      main.innerHTML = `
+        <div class="absences-wrap">
+          <div class="absences-title">
+            <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              <line x1="17" y1="11" x2="23" y2="11"/>
+            </svg>
+            Absences des professeurs
+          </div>
+          ${rows}
+        </div>`;
+      main.className = 'main absences';
+    }
+
+    /* ── Rendu générique ── */
+    function render(i) {
+      const slide = slides[i];
+      if (!slide) return;
+      if (slide.type === 'annonce') renderAnnonce(slide.data, i);
+      else renderAbsences(slide.data);
+    }
+
+    /* ── Défilement ── */
     function toggle() {
       main.classList.add('fading');
       setTimeout(() => {
-        index = index + 1;
-        if (index == annonces.length) {
-          chargerInfos();
-          index = 0;
+        index++;
+        if (index >= slides.length) {
+          // On recharge tout avant de reboucler
+          chargerTout().then(() => {
+            index = 0;
+            render(index);
+            main.classList.remove('fading');
+          });
           return;
         }
         render(index);
@@ -218,29 +384,50 @@
       }, 600);
     }
 
-    // Chargement des annonces depuis infos.php
+    /* ── Chargements ── */
     function chargerInfos() {
-      fetch('infos.php?token='+token)
+      return fetch('infos.php?token=' + token)
         .then(res => res.json())
-        .then(data => {
-          annonces = data;
-          if (annonces.length === 0) return;
-          render(index);
-          document.title = annonces[0].nom;
-        })
+        .then(data => { annonces = data; })
         .catch(err => {
-          main.innerHTML = `<p style="color:var(--muted);font-size:2vw;grid-column:1/-1;text-align:center;">Impossible de charger les annonces.</p>`;
-          console.error('Erreur pendant le chargement des informations.', err);
-          setTimeout(() => {
-            location.reload()
-          }, 2000);
+          console.error('Erreur chargement annonces', err);
+          annonces = [];
         });
     }
-    chargerInfos();
-    setInterval(toggle, DURATION);
+
+    function chargerAbsences() {
+      return fetch('absences.php?token=' + token)
+        .then(res => res.json())
+        .then(data => { absences = data; })
+        .catch(err => {
+          console.error('Erreur chargement absences', err);
+          absences = [];
+        });
+    }
+
+    function chargerTout() {
+      return Promise.all([chargerInfos(), chargerAbsences()])
+        .then(() => {
+          buildSlides();
+          if (slides.length === 0) {
+            main.innerHTML = `<p style="color:var(--muted);font-size:2vw;grid-column:1/-1;text-align:center;">Aucune information à afficher.</p>`;
+            return;
+          }
+          if (annonces.length > 0) document.title = annonces[0].nom || 'Affichage Lycée';
+        })
+        .catch(err => {
+          main.innerHTML = `<p style="color:var(--muted);font-size:2vw;grid-column:1/-1;text-align:center;">Impossible de charger les données.</p>`;
+          console.error('Erreur générale', err);
+          setTimeout(() => location.reload(), 2000);
+        });
+    }
+
+    chargerTout().then(() => {
+      render(index);
+      setInterval(toggle, DURATION);
+    });
 
     // Horloge
-    function pad(n) { return String(n).padStart(2, '0'); }
     function tick() {
       const now = new Date();
       document.getElementById('clock').textContent =
