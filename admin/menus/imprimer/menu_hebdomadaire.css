@@ -1,0 +1,74 @@
+.page-wrapper {
+    height: 100vh;
+    padding: var(--padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--padding);
+}
+
+#logo_lycee{
+    width : 400px;
+    max-height: 60px;
+    align-self: flex-start;
+}
+
+#titre-menu {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+
+#mot-du-chef-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--padding);
+}
+
+#mot-du-chef-wrapper p {
+    font-size: 11px;
+    font-weight: 400;
+}
+
+#mot-du-chef-wrapper img {
+    height: 30px;
+}
+
+table {
+    width: 100%;
+    margin: var(--padding-small) 0px;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th:not(th:first-child),
+td:first-child {
+    padding: var(--padding);
+    border: 1px solid black;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+td {
+    max-width: 30vw;
+    padding: var(--padding-small);
+    border: 1px solid black;
+    font-size: 13px;
+}
+
+footer{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+footer div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Enlever les marges quand on imprime */
+@page {
+    margin: 0cm;
+}

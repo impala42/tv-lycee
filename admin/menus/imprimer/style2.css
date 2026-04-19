@@ -1,0 +1,257 @@
+* > * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+
+:root{
+   --color-backgroud-white: #FEFFFF;
+   --color-background-grey: #F8F8F8;
+   --color-background-dark-grey: #EEEEEE;
+   
+   --color-blue: #2D87F0;
+   --color-orange: #F57F54;
+   --color-orange-hover: #fb8b63;
+
+   --color-red: #FE5252;
+   --color-green: #00A859;
+
+   --color-tag-blue: #477FC7;
+   --color-tag-pink: #EC6F86;
+   --color-tag-green: #afbf37;
+
+   --color-white: #FFFFFF;
+   --color-black: #000000;
+   --color-light-grey: #CCCCCC;
+   --color-grey: #929292;
+   --color-dark-grey: #2F3A3A;
+
+   --padding-small: 5px;
+   --padding: 15px;
+   --padding-large: 30px;
+   --padding-large-x: 45px;
+
+   --border-radius-small: 8px;
+   --border-radius-large: 15px;
+
+   --header-size: 75px;
+   --navigation-size: 275px;
+}
+
+
+body {
+   padding: 0;
+   margin: 0;
+   background-color: var(--color-backgroud-white);
+}
+
+p {
+   font-size: 1rem;
+}
+
+a {
+   text-decoration: none;
+   font-weight: 400;
+   font-size: 1.2rem;
+   color: var(--color-grey);
+   transition: color 200ms;
+   cursor: pointer;
+}
+a:hover {
+   color: var(--color-orange);
+}
+
+h2 {
+   font-weight: 600;
+}
+
+h3 {
+   font-size: 1.6rem;
+   font-weight: 500;
+}
+
+h4 {
+   font-size: 1.1rem;
+   font-weight: 600;
+}
+
+form {
+   display: flex;
+   flex-direction: column;
+   gap: var(--padding-large);
+}
+
+button, input[type="button"], input[type="submit"], input[type="reset"], label {
+   background-color: transparent;
+   border: none; 
+	outline: none;
+	cursor: pointer;
+}
+
+hr {
+   border: none;
+   border-top: 1px solid var(--color-grey);
+}
+
+.bi {
+   font-size: 1.3rem;
+}
+
+.container {
+   padding: var(--padding);
+   background-color: var(--color-background-grey);
+   border-radius: var(--border-radius-large);
+   display: flex;
+   flex-direction: column;
+   gap: var(--padding);
+   border: 1px solid var(--color-light-grey);
+}
+
+.right-side {
+   margin-left: var(--navigation-size);
+}
+
+#path-wrapper {
+   position: fixed;
+   width: 100%;
+   height: var(--header-size);
+   padding: 0px var(--padding);
+   display: flex;
+   align-items: center;
+   gap: var(--padding);
+   background-color: var(--color-background-grey);
+   border-bottom: 1px solid var(--color-light-grey);
+   z-index: 20;
+}
+
+.content-wrapper {
+   width: 100%;
+   padding: var(--padding);
+   padding-top: calc( var(--header-size) + var(--padding) );
+   display: flex;
+   flex-direction: column;
+   gap: var(--padding);
+   position: relative;
+}
+
+
+.add-button {
+   position: fixed;
+   padding: 5px 20px;
+   background-color: var(--color-orange);
+   color: var(--color-white);
+   border-radius: var(--border-radius-small);
+   bottom: var(--padding-large-x);
+   left: calc(var(--navigation-size) + (100% - var(--navigation-size)) / 2);
+   transform: translateX(-50%);
+   cursor: pointer;
+}
+.add-button:hover {
+   color: var(--color-white);
+   background-color: var(--color-orange-hover);
+}
+
+
+.form-input-wrapper {
+   display: flex;
+   align-items: center;
+   gap: var(--padding);
+}
+
+.form-input {
+   display: flex;
+   flex-direction: column;
+   position: relative;
+   flex-grow: 1;
+}
+.form-input+.password-input {
+   flex-direction: row;
+   position: relative;
+}
+
+.user-input {
+   flex-grow: 2;
+   height: 50px;
+   padding: 10px 15px;
+   background-color: transparent;
+   border: 2px solid var(--color-grey);
+   box-sizing: border-box;
+   border-radius: var(--border-radius-small);
+   font-size: 1rem;
+   transition: border 200ms;
+}
+/* L'input est sélectionné par l'utilisateur */
+.user-input:focus {
+   border: 2px solid var(--color-blue);
+}
+/* Label de l'input */
+.user-input ~ label {
+   position: absolute;
+   top: 50%;
+   transform: translateY(-50%);
+   font-size: 0.8rem;
+   color: var(--color-grey);
+   padding: 0 3px;
+   margin-left: 12px;
+   pointer-events: none;
+   background-color: var(--color-background-grey);
+   z-index: 10;
+   transition: all 200ms;
+}
+/* L'input est sélectionné par l'utilisateur ou il y a du texte à l'intérieur*/
+.user-input:focus ~ label,
+.user-input:valid ~ label {
+   top: 0;
+}
+.user-input:focus ~ label{
+   color: var(--color-blue);
+}
+
+/* Boutons d'autocomplétion */
+.user-input::-webkit-contacts-auto-fill-button, 
+.user-input::-webkit-credentials-auto-fill-button {
+   position: absolute;
+   right: var(--padding);
+   background-color: var(--color-grey);
+}
+/* Bouton d'autocomplétion sur les champs de mot de passe */
+.password-input input::-webkit-contacts-auto-fill-button, 
+.password-input input::-webkit-credentials-auto-fill-button {
+   right: calc(30px + var(--padding));
+}
+
+#eye-hide, 
+#eye-hide-repeat {
+   display: none;
+}
+
+input[type=radio] + label {
+   /* Le texte ne peux pas être sélectionné */
+   -webkit-touch-callout: none; /* iOS Safari */
+   -webkit-user-select: none; /* Safari */
+   -moz-user-select: none; /* Old versions of Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+   user-select: none;
+}
+
+.error-message {
+   color: var(--color-red);
+}
+
+input[type=submit] {
+   padding: var(--padding);
+   border: none;
+   border-radius: var(--border-radius-small);
+   font-size: 15px;
+   color: var(--color-white);
+   transition: background-color 200ms;
+}
+.submit-disabled {
+   background-color: var(--color-light-grey) !important;
+   cursor: not-allowed !important;
+}
+.submit-enabled {
+   background-color: var(--color-orange) !important;
+}

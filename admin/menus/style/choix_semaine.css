@@ -1,0 +1,18 @@
+    .cal { display: inline-block; border: 1px solid #ccc; border-radius: 6px; padding: 8px; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; gap: 8px; }
+    .nav button { background: none; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; padding: 2px 8px; font-size: 12px; }
+    .nav span { font-weight: bold; min-width: 120px; text-align: center; }
+
+    .grid { display: grid; grid-template-columns: repeat(7, 30px); }
+    .hd { text-align: center; padding: 3px 0; font-size: 11px; color: #888; }
+    .day { text-align: center; padding: 4px 0; border-radius: 4px; cursor: pointer; }
+    .day.other { color: #ccc; }
+    .day.today { font-weight: bold; }
+
+    .week:hover .day { background: #f0f0f0; }
+    .week.selected .day:nth-child(-n+5) { background: #d0e8ff; }
+    .week.selected .day:first-child,
+    .week.selected .day:nth-child(5) { background: #4a90d9; color: #fff; border-radius: 4px; }
+
+    .output { font-size: 12px; color: #444; }
