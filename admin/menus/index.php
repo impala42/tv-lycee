@@ -23,7 +23,6 @@ $stmt = $pdo->prepare("
 $stmt->execute([$date->format("Y-m-d")]);
 $menu = $stmt->fetch();
 
-
 ?>
 
 <!DOCTYPE html>
@@ -51,6 +50,7 @@ $menu = $stmt->fetch();
             <li> <?= htmlspecialchars($menu['laitage']) ?> </li>
             <li> <?= htmlspecialchars($menu['dessert']) ?> </li>
         </ul>
+        <a href="modifier_menu.php?id=<?= $menu["id"] ?>">Modifier ce menu</a>
     <?php endif ?>
 </body>
 </html>
