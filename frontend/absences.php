@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     // On cherche les absences
 
-    $stmt = $pdo->prepare("SELECT professeur, matiere, date_debut, date_fin FROM Absence");
+    $stmt = $pdo->prepare("SELECT professeur, matiere, date_debut, date_fin FROM Absence WHERE date_fin >= NOW() ORDER BY date_debut");
     $stmt->execute();
     $rows = $stmt->fetchAll();
 
