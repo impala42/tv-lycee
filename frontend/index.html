@@ -219,6 +219,95 @@
       margin-bottom: .15em;
     }
 
+    /* ── Slide menu ── */
+    .main.menu {
+      grid-template-columns: 1fr;
+      align-items: stretch;
+    }
+
+    .menu-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2vh;
+      width: 100%;
+    }
+
+    .menu-title {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 2.6vw, 3.2rem);
+      color: var(--ink);
+      text-align: center;
+      letter-spacing: .03em;
+      margin-bottom: 1.2vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+    }
+
+    .menu-title svg { flex-shrink: 0; }
+
+    .menu-date {
+      font-size: clamp(.9rem, 1.4vw, 1.8rem);
+      color: var(--muted);
+      font-weight: 400;
+      text-align: center;
+      margin-top: -.8vh;
+      margin-bottom: .4vh;
+      text-transform: capitalize;
+    }
+
+    .menu-row {
+      display: grid;
+      grid-template-columns: 12vw 1fr auto;
+      gap: 2vw;
+      align-items: center;
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(14px);
+      border-radius: 1.2rem;
+      padding: 1vh 2.5vw;
+      box-shadow:
+        0 2px 8px  rgba(26,22,40,.06),
+        0 8px 32px rgba(26,22,40,.12);
+    }
+
+    .menu-row:nth-child(1) { border-left: .7vw solid var(--mint); }
+    .menu-row:nth-child(2) { border-left: .7vw solid var(--rose); }
+    .menu-row:nth-child(3) { border-left: .7vw solid var(--lav); }
+    .menu-row:nth-child(4) { border-left: .7vw solid var(--sky); }
+
+    .menu-categorie {
+      font-size: clamp(.8rem, 1.2vw, 1.5rem);
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .menu-plat {
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.6vw, 5rem);
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .menu-badges {
+      display: flex;
+      gap: .6vw;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .menu-badge img {
+      width: clamp(1.4rem, 2.8vw, 3.6rem);
+      height: clamp(1.4rem, 2.8vw, 3.6rem);
+      object-fit: contain;
+    }
+
     /* ── Footer ── */
     footer {
       display: flex;
@@ -264,8 +353,9 @@
 
     let annonces  = [];
     let absences  = [];
-    // slides = [...annonces_slides, ...absences_slides]
-    // chaque élément : { type: 'annonce'|'absence', data: ... }
+    let menus     = [];
+    // slides = [...annonces_slides, ...absences_slides, ...menu_slides]
+    // chaque élément : { type: 'annonce'|'absence'|'menu', data: ... }
     let slides = [];
     let index  = 0;
 
@@ -284,6 +374,52 @@
       for (let i = 0; i < absences.length; i += ABSENCES_PAR_SLIDE) {
         slides.push({ type: 'absence', data: absences.slice(i, i + ABSENCES_PAR_SLIDE) });
       }
+      menus.forEach(m => slides.push({ type: 'menu', data: m }));
+    }
+
+    /* ── Rendu d'une slide menu ── */
+    function renderMenu(m) {
+      const categories = [
+        { label: 'Entrée',  prefix: 'entree',  color: 'var(--mint)' },
+        { label: 'Plat',    prefix: 'plat',    color: 'var(--rose)' },
+        { label: 'Laitage', prefix: 'laitage', color: 'var(--lav)'  },
+        { label: 'Dessert', prefix: 'dessert', color: 'var(--sky)'  },
+      ];
+
+      const dateStr = new Date(m.jour).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+
+      const rows = categories.map(cat => {
+        const nom = m[cat.prefix + '_nom'] || '—';
+        const badges = [
+          { key: 'fait_maison',   img: 'fait_maison.png',   alt: 'Fait maison'   },
+          { key: 'bio',           img: 'bio.png',           alt: 'Bio'           },
+          { key: 'circuit_court', img: 'circuit_court.png', alt: 'Circuit court' },
+          { key: 'sans_viande',   img: 'vegan.png',         alt: 'Sans viande'   },
+        ]
+        .filter(b => m[cat.prefix + '_' + b.key] == 1)
+        .map(b => `<div class="menu-badge"><img src="${b.img}" alt="${b.alt}" title="${b.alt}" /></div>`)
+        .join('');
+
+        return `
+        <div class="menu-row">
+          <div class="menu-categorie">${cat.label}</div>
+          <div class="menu-plat">${nom}</div>
+          <div class="menu-badges">${badges}</div>
+        </div>`;
+      }).join('');
+
+      main.innerHTML = `
+        <div class="menu-wrap">
+          <div class="menu-title">
+            <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
+            </svg>
+            Menu du jour
+          </div>
+          <div class="menu-date">${dateStr}</div>
+          ${rows}
+        </div>`;
+      main.className = 'main menu';
     }
 
     /* ── Rendu d'une slide annonce ── */
@@ -362,7 +498,8 @@
       const slide = slides[i];
       if (!slide) return;
       if (slide.type === 'annonce') renderAnnonce(slide.data, i);
-      else renderAbsences(slide.data);
+      else if (slide.type === 'absence') renderAbsences(slide.data);
+      else renderMenu(slide.data);
     }
 
     /* ── Défilement ── */
@@ -405,8 +542,18 @@
         });
     }
 
+    function chargerMenus() {
+      return fetch('menu.php?token=' + token)
+        .then(res => res.json())
+        .then(data => { menus = data; })
+        .catch(err => {
+          console.error('Erreur chargement menus', err);
+          menus = [];
+        });
+    }
+
     function chargerTout() {
-      return Promise.all([chargerInfos(), chargerAbsences()])
+      return Promise.all([chargerInfos(), chargerAbsences(), chargerMenus()])
         .then(() => {
           buildSlides();
           if (slides.length === 0) {
