@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $p_bio = isset($_POST['p_bio']) ? 1 : 0;
     $p_cc = isset($_POST['p_circuit_court']) ? 1 : 0;
     $p_sv = isset($_POST['p_sans_viande']) ? 1 : 0;
-    $id_plat = isset($_POST["id_plat"]);
+    $id_plat = trim($_POST["id_plat"] ?? '');
 
     // Laitage
     $laitage = trim($_POST['laitage'] ?? '');

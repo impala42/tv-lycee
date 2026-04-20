@@ -16,8 +16,8 @@ if (
     // Récupération et formatage
     $date_debut = date('Y-m-d H:i:s', strtotime($date_debut_raw));
     $date_fin = date('Y-m-d H:i:s', strtotime($date_fin_raw));
-    $professeur = htmlspecialchars($_POST['professeur']);
-    $matiere = htmlspecialchars($_POST['matiere']);
+    $professeur = $_POST['professeur'];
+    $matiere = $_POST['matiere'];
 
     // Vérification logique
     if (strtotime($date_fin_raw) <= strtotime($date_debut_raw)) {
