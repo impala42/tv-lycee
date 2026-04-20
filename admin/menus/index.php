@@ -68,5 +68,7 @@ $menu = $stmt->fetch();
     <div class="output" id="output">Aucune semaine sélectionnée</div>
 
     <script src="script/choix_semaine.js"></script>
+    
+    <footer><a href="/tvtest/admin/index.php">Retour au Menu</a></footer>
 </body>
 </html>

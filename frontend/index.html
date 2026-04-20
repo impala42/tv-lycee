@@ -389,10 +389,10 @@
       const rows = categories.map(cat => {
         const nom = m[cat.prefix + '_nom'] || '—';
         const badges = [
-          { key: 'fait_maison',   img: 'fait_maison.png',   alt: 'Fait maison'   },
-          { key: 'bio',           img: 'bio.png',           alt: 'Bio'           },
-          { key: 'circuit_court', img: 'circuit_court.png', alt: 'Circuit court' },
-          { key: 'sans_viande',   img: 'vegan.png',         alt: 'Sans viande'   },
+          { key: 'fait_maison',   img: 'img/fait_maison.png',   alt: 'Fait maison'   },
+          { key: 'bio',           img: 'img/bio.png',           alt: 'Bio'           },
+          { key: 'circuit_court', img: 'img/circuit_court.png', alt: 'Circuit court' },
+          { key: 'sans_viande',   img: 'img/vegan.png',         alt: 'Sans viande'   },
         ]
         .filter(b => m[cat.prefix + '_' + b.key] == 1)
         .map(b => `<div class="menu-badge"><img src="${b.img}" alt="${b.alt}" title="${b.alt}" /></div>`)
