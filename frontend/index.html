@@ -244,12 +244,13 @@
       align-items: center;
       justify-content: center;
       gap: 0.5em;
+      text-transform: capitalize;
     }
 
     .menu-title svg { flex-shrink: 0; }
 
     .menu-date {
-      font-size: clamp(.9rem, 1.4vw, 1.8rem);
+      font-size: clamp(1.4rem, 2.4vw, 3.2rem);
       color: var(--muted);
       font-weight: 400;
       text-align: center;
@@ -272,10 +273,7 @@
         0 8px 32px rgba(26,22,40,.12);
     }
 
-    .menu-row:nth-child(1) { border-left: .7vw solid var(--mint); }
-    .menu-row:nth-child(2) { border-left: .7vw solid var(--rose); }
-    .menu-row:nth-child(3) { border-left: .7vw solid var(--lav); }
-    .menu-row:nth-child(4) { border-left: .7vw solid var(--sky); }
+
 
     .menu-categorie {
       font-size: clamp(.8rem, 1.2vw, 1.5rem);
@@ -410,13 +408,7 @@
 
       main.innerHTML = `
         <div class="menu-wrap">
-          <div class="menu-title">
-            <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
-            </svg>
-            Menu du jour
-          </div>
-          <div class="menu-date">${dateStr}</div>
+          <div class="menu-title">${dateStr}</div>
           ${rows}
         </div>`;
       main.className = 'main menu';
@@ -569,9 +561,24 @@
         });
     }
 
+    let autoTimer;
+
+    function resetTimer() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(toggle, DURATION);
+    }
+
     chargerTout().then(() => {
       render(index);
-      setInterval(toggle, DURATION);
+      autoTimer = setInterval(toggle, DURATION);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        toggle();
+        resetTimer();
+      }
     });
 
     // Horloge
