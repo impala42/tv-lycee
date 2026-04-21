@@ -1,6 +1,7 @@
 <?php
 require '../../bdd/db.php';
 require '../utilisateurs/auth.php';
+require 'inserer_plat.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -47,37 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     try {
-        // Insertion de l'entrée
-        $stmt = $pdo->prepare("
-            INSERT INTO Plat (nom, fait_maison, bio, circuit_court, sans_viande)
-            VALUES (?, ?, ?, ?, ?)
-        ");
-        $stmt->execute([$entree, $e_fm, $e_bio, $e_cc, $e_sv]);
-        $id_entree = $pdo->lastInsertId();
-
-        // Insertion du plat
-        $stmt = $pdo->prepare("
-            INSERT INTO Plat (nom, fait_maison, bio, circuit_court, sans_viande)
-            VALUES (?, ?, ?, ?, ?)
-        ");
-        $stmt->execute([$plat, $p_fm, $p_bio, $p_cc, $p_sv]);
-        $id_plat = $pdo->lastInsertId();
-
-        // Insertion du laitage
-        $stmt = $pdo->prepare("
-            INSERT INTO Plat (nom, fait_maison, bio, circuit_court, sans_viande)
-            VALUES (?, ?, ?, ?, ?)
-        ");
-        $stmt->execute([$laitage, $l_fm, $l_bio, $l_cc, $l_sv]);
-        $id_laitage = $pdo->lastInsertId();
-
-        // Insertion du dessert
-        $stmt = $pdo->prepare("
-            INSERT INTO Plat (nom, fait_maison, bio, circuit_court, sans_viande)
-            VALUES (?, ?, ?, ?, ?)
-        ");
-        $stmt->execute([$dessert, $d_fm, $d_bio, $d_cc, $d_sv]);
-        $id_dessert = $pdo->lastInsertId();
+        // Insertion des plats
+        $id_entree = insererPlat($pdo, $entree, $e_fm, $e_bio, $e_cc, $e_sv);
+        $id_plat = insererPlat($pdo, $plat, $p_fm, $p_bio, $p_cc, $p_sv);
+        $id_laitage = insererPlat($pdo, $laitage, $l_fm, $l_bio, $l_cc, $l_sv);
+        $id_dessert = insererPlat($pdo, $dessert, $d_fm, $d_bio, $d_cc, $d_sv);
         
 
         // Et on ajoute le menu finalement

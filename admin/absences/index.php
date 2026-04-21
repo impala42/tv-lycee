@@ -23,7 +23,7 @@ $absences = $stmt->fetchAll();
     <ul>
         <?php foreach ($absences as $absence): ?>
         <li>
-            <?= htmlspecialchars($absence['professeur']) ?> - du <?= date("d/m H\hi", strtotime($absence['date_debut'])) ?> au <?= date("d/m H\hi", strtotime($absence['date_fin'])) ?>
+            <?= htmlspecialchars($absence['professeur']) ?> - <?= htmlspecialchars($absence['matiere']) ?> - du <?= date("d/m H\hi", strtotime($absence['date_debut'])) ?> au <?= date("d/m H\hi", strtotime($absence['date_fin'])) ?>
             <a href="modifier_absence.php?id=<?= $absence['id'] ?>">Modifier</a>
             <!-- Supprimer l'absence -->
             <form action="suppr_absence.php" method="POST" style="display:inline">
