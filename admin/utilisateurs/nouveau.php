@@ -11,8 +11,15 @@ require 'auth_superadmin.php';
 </head>
 <body>
     <form action="register.php" method="POST">
+        <label for="username">Nom d'utilisateur :</label>
         <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+
+        <label for="password">Mot de passe :</label>
         <input type="password" name="password" placeholder="Mot de passe" required>
+
+        <label for="superadmin">Donner les droits maximaux à cet utilisateur :</label>
+        <input type="checkbox" name="superadmin" placeholder="Superadmin" required>
+
         <button type="submit">Inscrire</button>
     </form>
 </body>
