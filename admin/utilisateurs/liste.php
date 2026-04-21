@@ -2,7 +2,7 @@
 require 'auth_superadmin.php';
 require '../../bdd/db.php';
 
-$stmt = $pdo->prepare("SELECT username, superadmin FROM Utilisateurs");
+$stmt = $pdo->prepare("SELECT id, username, superadmin FROM Utilisateurs");
 $stmt->execute();
 $utilisateurs = $stmt->fetchAll();
 
@@ -21,7 +21,8 @@ $utilisateurs = $stmt->fetchAll();
     <ul>
         <?php foreach ($utilisateurs as $utilisateur): ?>
         <li>
-            <?= htmlspecialchars($utilisateur['username']) ?> - grade : <?= htmlspecialchars($utilisateur['superadmin']) ?>
+            <?= htmlspecialchars($utilisateur['username']) ?> - <?= $utilisateur['superadmin'] === 1 ? "Admin simple" : "Superadmin" ?>
+            <a href="modifier_mdp.php?id=<?= $utilisateur["id"] ?>">Modifier le mot de passe</a>
         </li>
     <?php endforeach; ?>
     </ul>
