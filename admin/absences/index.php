@@ -1,6 +1,9 @@
 <?php
 require '../utilisateurs/auth.php';
 require '../../bdd/db.php';
+require '../csrf.php';
+
+$csrf = csrf_generate();
 
 $stmt = $pdo->prepare("SELECT * FROM Absence");
 $stmt->execute();
@@ -22,7 +25,15 @@ $absences = $stmt->fetchAll();
         <li>
             <?= htmlspecialchars($absence['professeur']) ?> - du <?= date("d/m H\hi", strtotime($absence['date_debut'])) ?> au <?= date("d/m H\hi", strtotime($absence['date_fin'])) ?>
             <a href="modifier_absence.php?id=<?= $absence['id'] ?>">Modifier</a>
-            <a href="suppr_absence.php?id=<?= $absence['id'] ?>">Supprimer</a>
+            <!-- Supprimer l'absence -->
+            <form action="suppr_absence.php" method="POST" style="display:inline">
+                <input type="hidden" name="id"         value="<?= $absence['id'] ?>">
+                <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
+                <button type="submit"
+                        onclick="return confirm('Supprimer cette absence ?')">
+                    Supprimer
+                </button>
+            </form>
         </li>
     <?php endforeach; ?>
     </ul>

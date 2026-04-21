@@ -1,12 +1,14 @@
 <?php
 require '../../bdd/db.php';
 require '../utilisateurs/auth.php';
+require '../csrf.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    csrf_verify();
 
     // Récupération et validation des données
-    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-
+    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
     if (!$id) die('ID invalide.');
 
     // Mise à jour en BDD

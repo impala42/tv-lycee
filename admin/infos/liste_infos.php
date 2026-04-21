@@ -1,11 +1,13 @@
 <?php
 require '../utilisateurs/auth.php';
 require '../../bdd/db.php';
+require '../csrf.php';
 
 $stmt = $pdo->prepare("SELECT * FROM Information");
 $stmt->execute();
 $infos = $stmt->fetchAll();
 
+$csrf = csrf_generate();
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +25,16 @@ $infos = $stmt->fetchAll();
         <li>
             <?= htmlspecialchars($info['titre']) ?>
             <a href="modifier_info.php?id=<?= $info['id'] ?>">Modifier</a>
-            <a href="suppr_infos.php?id=<?= $info['id'] ?>">Supprimer</a>
+            
+        <!-- Supprimer l'info -->
+        <form action="suppr_info.php" method="POST" style="display:inline">
+            <input type="hidden" name="id"         value="<?= $info['id'] ?>">
+            <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
+            <button type="submit"
+                    onclick="return confirm('Voulez-vous vraiment supprimer cette information ?')">
+                Supprimer
+            </button>
+        </form>
         </li>
     <?php endforeach; ?>
     </ul>
