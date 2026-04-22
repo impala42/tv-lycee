@@ -24,5 +24,6 @@ $_SESSION["username"] = $user["username"];
     <p>Vous êtes <?= $user['superadmin'] === 1 ? "Superadmin" : "Admin" ?>.</p>
 
     <a href="modifier_mdp.php?id=<?= $user["id"] ?>">Modifier votre mot de passe.</a>
+    <footer><a href="/tvtest/admin/index.php">Retour au Menu</a></footer>
 </body>
 </html>
