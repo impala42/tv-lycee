@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // créer le token aléatoirement
-    $token = strval(rand(0, 9999999999999));
+    $token = bin2hex(random_bytes(10));
 
     $stmt = $pdo->prepare("INSERT INTO TV (nom, token) VALUES (:nom, :token)");
     $stmt->execute([
