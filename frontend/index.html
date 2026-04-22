@@ -306,6 +306,26 @@
       object-fit: contain;
     }
 
+    /* ── Mode image plein écran ── */
+    #fullscreen-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000;
+    }
+
+    #fullscreen-overlay.active {
+      display: block;
+    }
+
+    #fullscreen-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     /* ── Footer ── */
     footer {
       display: flex;
@@ -326,6 +346,10 @@
 <body>
 
   <div class="bg"></div>
+
+  <div id="fullscreen-overlay">
+    <img id="fullscreen-img" src="" alt="" />
+  </div>
 
   <div class="layout">
 
@@ -414,8 +438,30 @@
       main.className = 'main menu';
     }
 
+    const overlay    = document.getElementById('fullscreen-overlay');
+    const fullscreenImg = document.getElementById('fullscreen-img');
+
+    function showFullscreen(src, alt) {
+      fullscreenImg.src = src;
+      fullscreenImg.alt = alt;
+      overlay.classList.add('active');
+    }
+
+    function hideFullscreen() {
+      overlay.classList.remove('active');
+      fullscreenImg.src = '';
+    }
+
     /* ── Rendu d'une slide annonce ── */
     function renderAnnonce(a, i) {
+      // Mode plein écran
+      if (a.image_fullscreen == 1 && a.lien_image && a.lien_image.trim() !== '') {
+        showFullscreen(a.lien_image, a.titre);
+        main.innerHTML = '';
+        main.className = 'main';
+        return;
+      }
+      hideFullscreen();
       const hasImage = a.lien_image && a.lien_image.trim() !== '';
       const textBlock = `
         <section class="content">
@@ -489,6 +535,7 @@
     function render(i) {
       const slide = slides[i];
       if (!slide) return;
+      if (slide.type !== 'annonce') hideFullscreen();
       if (slide.type === 'annonce') renderAnnonce(slide.data, i);
       else if (slide.type === 'absence') renderAbsences(slide.data);
       else renderMenu(slide.data);
