@@ -39,6 +39,9 @@ if (!$absence) die('Absence introuvable.');
     <label>Matière :</label><br>
     <input type="text" name="matiere" required value="<?= $absence['matiere'] ?>"><br><br>
 
+    <label>Champ libre :</label><br>
+    <input type="text" name="champ_libre" required value="<?= $absence['champ_libre'] ?>"><br><br>
+
     <button type="submit">Modifier</button>
 
 </form>

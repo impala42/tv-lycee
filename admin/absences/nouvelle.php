@@ -13,10 +13,10 @@
 <form action="traitement_nouvelle.php" method="POST">
     
     <label>Date de début :</label><br>
-    <input type="datetime-local" name="date_debut" required><br><br>
+    <input type="datetime-local" name="date_debut" value="<?= date("Y-m-d") . 'T00:00' ?>" required><br><br>
 
     <label>Date de fin :</label><br>
-    <input type="datetime-local" name="date_fin" required><br><br>
+    <input type="datetime-local" name="date_fin" value="<?= date("Y-m-d") . 'T23:59' ?>" required><br><br>
 
     <label>Professeur :</label><br>
     <input type="text" name="professeur" required><br><br>
