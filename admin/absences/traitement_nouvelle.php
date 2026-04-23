@@ -7,8 +7,7 @@ if (
     isset($_POST['date_debut']) &&
     isset($_POST['date_fin']) &&
     isset($_POST['professeur']) &&
-    isset($_POST['matiere']) &&
-    isset($_POST['champ_libre'])
+    isset($_POST['matiere'])
 ) {
     // Conversion des dates
     $date_debut_raw = $_POST['date_debut'];
@@ -19,7 +18,7 @@ if (
     $date_fin = date('Y-m-d H:i:s', strtotime($date_fin_raw));
     $professeur = $_POST['professeur'];
     $matiere = $_POST['matiere'];
-    $champ_libre = $_POST['champ_libre'];
+    $champ_libre = isset($_POST['champ_libre']) ? $_POST['champ_libre'] : "";
 
     // Vérification logique
     if (strtotime($date_fin_raw) <= strtotime($date_debut_raw)) {
