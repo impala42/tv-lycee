@@ -430,7 +430,8 @@
   </div>
 
   <script>
-    const DURATION = 8000;
+    const DURATION_DEFAULT = 8000;
+    const DURATION_ABSENCE = 5000;
     const ABSENCES_PAR_SLIDE = 2;
 
     // token de la télé
@@ -655,11 +656,13 @@
             index = 0;
             render(index);
             main.classList.remove('fading');
+            scheduleNext();
           });
           return;
         }
         render(index);
         main.classList.remove('fading');
+        scheduleNext();
       }, 600);
     }
 
@@ -711,23 +714,31 @@
         });
     }
 
+    function getDuration(slide) {
+      if (!slide) return DURATION_DEFAULT;
+      return slide.type === 'absence' ? DURATION_ABSENCE : DURATION_DEFAULT;
+    }
+
     let autoTimer;
 
-    function resetTimer() {
-      clearInterval(autoTimer);
-      autoTimer = setInterval(toggle, DURATION);
+    function scheduleNext() {
+      clearTimeout(autoTimer);
+      const duration = getDuration(slides[index]);
+      autoTimer = setTimeout(() => {
+        toggle();
+      }, duration);
     }
 
     chargerTout().then(() => {
       render(index);
-      autoTimer = setInterval(toggle, DURATION);
+      scheduleNext();
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.code === 'Space') {
         e.preventDefault();
         toggle();
-        resetTimer();
+        scheduleNext();
       }
     });
 
