@@ -24,6 +24,9 @@
     <label>Matière :</label><br>
     <input type="text" name="matiere" required><br><br>
 
+    <label>Champ libre :</label><br>
+    <input type="text" name="champ_libre" value=""><br><br>
+
     <button type="submit">Ajouter</button>
 
 </form>
