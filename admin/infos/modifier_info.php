@@ -30,7 +30,7 @@ $tvsAssociees = array_column($stmtAssoc->fetchAll(), 'id_tv');
 </head>
 <body>
     <h1>Modifier l'article</h1>
-    <form action="traitement_modif_info.php" method="POST">
+    <form action="traitement_modif_info.php" method="POST" enctype="multipart/form-data">
 
         <!-- On transmet l'ID dans un champ caché -->
         <input type="hidden" name="id" value="<?= $article['id'] ?>">
@@ -40,13 +40,10 @@ $tvsAssociees = array_column($stmtAssoc->fetchAll(), 'id_tv');
                value="<?= htmlspecialchars($article['titre']) ?>" required>
 
         <label for="contenu">Contenu :</label>
-        <textarea id="contenu" name="contenu" rows="5" required>
-            <?= htmlspecialchars($article['contenu']) ?>
-        </textarea>
+        <textarea id="contenu" name="contenu" rows="5" required><?= htmlspecialchars(trim($article['contenu'])) ?></textarea>
 
-        <label for="image">Lien vers l'image :</label>
-        <input type="url" id="image" name="image"
-               value="<?= htmlspecialchars($article['lien_image']) ?>">
+        <label for="image">Image :</label>
+        <input type="file" id="image" name="image">
 
         <label>
             <input type="checkbox" name="plein_ecran" value="1"

@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Créer une Information</h1>
-    <form action="traitement_info.php" method="POST">
+    <form action="traitement_info.php" method="POST" enctype="multipart/form-data">
 
         <label for="titre">Titre :</label>
         <input type="text" id="titre" name="titre" required>
@@ -16,8 +16,8 @@
         <label for="contenu">Contenu :</label>
         <textarea id="contenu" name="contenu" rows="5" required></textarea>
 
-        <label for="image">Lien vers l'image :</label>
-        <input type="url" id="image" name="image" placeholder="Laisser vide si pas d'image">
+        <label for="image">Image :</label>
+        <input type="file" id="image" name="image">
 
         <label>
             <input type="checkbox" name="plein_ecran" value="1">

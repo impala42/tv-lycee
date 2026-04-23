@@ -1,17 +1,31 @@
 <?php
 require '../../bdd/db.php';
 require '../utilisateurs/auth.php';
+require 'upload.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Récupération et nettoyage des données
     $titre       = trim($_POST['titre'] ?? '');
     $contenu     = trim($_POST['contenu'] ?? '');
-    $image       = filter_input(INPUT_POST, 'image', FILTER_VALIDATE_URL);
     $plein_ecran = isset($_POST['plein_ecran']) ? 1 : 0;
     $date_debut  = $_POST['date_debut'] ?? '';
     $date_fin    = $_POST['date_fin'] ?? '';
     $tvs         = $_POST['tvs'] ?? [];
+
+    // Image
+    $result = uploadFichier(
+        $_FILES['image'],
+        "../../frontend/uploads/",
+        ['jpg', 'jpeg', 'png'],
+        ['image/jpeg', 'image/png']
+    );
+
+    if ($result['success']) {
+        $lien_image = 'uploads/' . $result["filename"];
+    } else {
+        $lien_image = "";
+    }
 
     // Validation des champs obligatoires
     if (empty($titre) || empty($contenu)) {
@@ -45,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([
             ':titre'            => $titre,
             ':contenu'          => $contenu,
-            ':lien_image'       => $image,
+            ':lien_image'       => $lien_image,
             ':image_fullscreen' => $plein_ecran,
             ':date_debut'       => $debut->format('Y-m-d'),
             ':date_fin'         => $fin->format('Y-m-d'),

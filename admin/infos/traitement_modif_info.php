@@ -1,6 +1,10 @@
 <?php
 require '../utilisateurs/auth.php';
 require '../../bdd/db.php';
+require 'upload.php';
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -8,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id          = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
     $titre       = trim($_POST['titre'] ?? '');
     $contenu     = trim($_POST['contenu'] ?? '');
-    $image       = filter_input(INPUT_POST, 'image', FILTER_VALIDATE_URL);
     $plein_ecran = isset($_POST['plein_ecran']) ? 1 : 0;
     $date_debut  = $_POST['date_debut'] ?? '';
     $date_fin    = $_POST['date_fin'] ?? '';
@@ -17,11 +20,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$id) die('ID invalide.');
     if (empty($titre) || empty($contenu)) die('Titre et contenu obligatoires.');
 
-    $debut = DateTimeImmutable::createFromFormat('Y-m-d', $date_debut);
-    $fin   = DateTimeImmutable::createFromFormat('Y-m-d', $date_fin);
+    // Image (optionnelle en modification)
+    $lien_image = null;
 
-    if (!$debut || !$fin) die('Dates invalides.');
-    if ($fin <= $debut) die('La date de fin doit être après la date de début.');
+    if (isset($_FILES['image']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
+        $result = uploadFichier(
+            $_FILES['image'],
+            "../../frontend/uploads/",
+            ['jpg', 'jpeg', 'png'],
+            ['image/jpeg', 'image/png']
+        );
+
+        if ($result['success']) {
+            $lien_image = 'uploads/' . $result['filename'];
+        } else {
+            die('Erreur upload : ' . $result['message']);
+        }
+    }
+
+    // Si pas de nouvelle image, on garde l'ancienne
+    if ($lien_image === null) {
+        $stmt = $pdo->prepare('SELECT lien_image FROM Information WHERE id = ?');
+        $stmt->execute([$id]);
+        $lien_image = $stmt->fetch()['lien_image'];
+    }
+
+    $date_debut = DateTimeImmutable::createFromFormat('Y-m-d', $date_debut);
+    $date_fin   = DateTimeImmutable::createFromFormat('Y-m-d', $date_fin);
+
+    if (!$date_debut || !$date_fin) die('Dates invalides.');
+    if ($date_debut > $date_fin) die('La date de fin doit être après la date de début.');
 
     // Validation des IDs de TVs
     $tvs = array_filter(array_map('intval', $tvs));
@@ -36,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SET titre = ?, contenu = ?, lien_image = ?, image_fullscreen = ?, date_debut = ?, date_fin = ?
             WHERE id = ?
         ');
-        $stmt->execute([$titre, $contenu, $image, $plein_ecran, $date_debut, $date_fin, $id]);
+        $stmt->execute([$titre, $contenu, $lien_image, $plein_ecran, $date_debut->format('Y-m-d'), $date_fin->format('Y-m-d'), $id]);
 
         // Suppression des anciennes associations TV
         $stmtDel = $pdo->prepare('DELETE FROM AffichageInfo WHERE id_info = ?');
