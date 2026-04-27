@@ -15,6 +15,7 @@ if ($user && password_verify($password, $user['password'])) {
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['superadmin'] = $user['superadmin'];
     $_SESSION["username"] = $user["username"];
+    $_SESSION["id_etablissement"] = $user["id_etablissement"];
     
     // Redirection après succès
     header('Location: ../index.php');

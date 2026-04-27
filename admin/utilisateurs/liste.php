@@ -3,7 +3,7 @@ require 'auth_superadmin.php';
 require '../../bdd/db.php';
 require '../csrf.php';
 
-$stmt = $pdo->prepare("SELECT id, username, superadmin FROM Utilisateurs");
+$stmt = $pdo->prepare("SELECT u.id, u.username, u.superadmin, e.nom AS etablissement FROM Utilisateurs AS u JOIN Etablissement AS e ON u.id_etablissement = e.id ORDER BY u.id_etablissement");
 $stmt->execute();
 $utilisateurs = $stmt->fetchAll();
 
@@ -23,7 +23,7 @@ $csrf = csrf_generate();
     <ul>
         <?php foreach ($utilisateurs as $utilisateur): ?>
         <li>
-            <?= htmlspecialchars($utilisateur['username']) ?> - <?= $utilisateur['superadmin'] === 1 ? "Admin simple" : "Superadmin" ?>
+            <?= htmlspecialchars($utilisateur['username']) ?> - <?= $utilisateur['superadmin'] === 0 ? "Admin simple" : "Superadmin" ?> - <?= $utilisateur['etablissement'] ?>
             <a href="modifier_mdp.php?id=<?= $utilisateur["id"] ?>">Modifier le mot de passe</a>
             
             <!-- Supprimer le compte -->
@@ -36,7 +36,7 @@ $csrf = csrf_generate();
                 </button>
             </form>
         </li>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
     </ul>
     <footer><a href="/tvtest/admin/index.php">Retour au Menu</a></footer>
 </body>
