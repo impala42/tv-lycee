@@ -11,6 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
     if (!$id) die('ID invalide.');
 
+    if ($id == $_SESSION['user_id']) die("Vous ne pouvez pas supprimer le compte actif.");
+
     // Mise à jour en BDD
     $stmt = $pdo->prepare('
         DELETE 
