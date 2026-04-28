@@ -32,7 +32,8 @@
 
         <?php
         require '../../bdd/db.php';
-        $stmt = $pdo->query("SELECT * FROM TV");
+        $stmt = $pdo->prepare("SELECT * FROM TV WHERE id_etablissement = ?");
+        $stmt->execute([$_SESSION["id_etablissement"]]);
         $tvs  = $stmt->fetchAll();
         ?>
 
@@ -46,7 +47,7 @@
             <?php endforeach; ?>
         </fieldset>
 
-        <button type="submit">Envoyer</button>
+        <button type="submit">Créer</button>
     </form>
 </body>
 </html>

@@ -13,7 +13,8 @@ $article = $stmt->fetch();
 if (!$article) die('Article introuvable.');
 
 // Récupération de toutes les TVs
-$stmtTVs = $pdo->query('SELECT * FROM TV');
+$stmtTVs = $pdo->prepare('SELECT * FROM TV WHERE id_etablissement = ?');
+$stmtTVs->execute([$_SESSION["id_etablissement"]]);
 $tvs = $stmtTVs->fetchAll();
 
 // Récupération des TVs déjà associées à cette information
