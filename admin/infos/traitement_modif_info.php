@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tvs         = $_POST['tvs'] ?? [];
 
     if (!$id) die('ID invalide.');
-    if (empty($titre) || empty($contenu)) die('Titre et contenu obligatoires.');
+    if (empty($titre)) die('Titre obligatoire.');
 
     // Image (optionnelle en modification)
     $lien_image = null;

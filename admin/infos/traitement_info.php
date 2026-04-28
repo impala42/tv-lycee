@@ -28,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Validation des champs obligatoires
-    if (empty($titre) || empty($contenu)) {
-        die('Erreur : le titre et le contenu sont obligatoires.');
+    if (empty($titre)) {
+        die('Erreur : le titre est obligatoire.');
     }
 
     // Validation et conversion des dates

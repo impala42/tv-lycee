@@ -14,7 +14,7 @@
         <input type="text" id="titre" name="titre" required>
 
         <label for="contenu">Contenu :</label>
-        <textarea id="contenu" name="contenu" rows="5" required></textarea>
+        <textarea id="contenu" name="contenu" rows="5"></textarea>
 
         <label for="image">Image :</label>
         <input type="file" id="image" name="image">

@@ -41,7 +41,7 @@ $tvsAssociees = array_column($stmtAssoc->fetchAll(), 'id_tv');
                value="<?= htmlspecialchars($article['titre']) ?>" required>
 
         <label for="contenu">Contenu :</label>
-        <textarea id="contenu" name="contenu" rows="5" required><?= htmlspecialchars(trim($article['contenu'])) ?></textarea>
+        <textarea id="contenu" name="contenu" rows="5"><?= htmlspecialchars(trim($article['contenu'])) ?></textarea>
 
         <label for="image">Image :</label>
         <input type="file" id="image" name="image">
