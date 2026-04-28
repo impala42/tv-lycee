@@ -65,12 +65,13 @@
             LEFT JOIN Plat l ON m.id_laitage = l.id
             LEFT JOIN Plat d ON m.id_dessert = d.id
 
-            WHERE :date_debut <= m.jour AND :date_fin >= m.jour
+            WHERE :date_debut <= m.jour AND :date_fin >= m.jour AND m.id_etablissement = :id_etablissement
          ");
 
          $stmt->execute(array(
             'date_debut' => $dateDebut,
-            'date_fin' => $dateFin
+            'date_fin' => $dateFin,
+            'id_etablissement' => $_SESSION["id_etablissement"]
          ));
       } catch (Exception $e) {
          die('Erreur lors de l\'enregistrement : ' . $e->getMessage());

@@ -18,9 +18,9 @@ $stmt = $pdo->prepare("
     JOIN Plat AS p ON m.id_plat_principal = p.id
     JOIN Plat AS l ON m.id_laitage = l.id
     JOIN Plat AS d ON m.id_dessert = d.id
-    WHERE m.jour = ? "
+    WHERE m.jour = ? AND m.id_etablissement = ?"
 );
-$stmt->execute([$date->format("Y-m-d")]);
+$stmt->execute([$date->format("Y-m-d")], $_SESSION["id_etablissement"]);
 $menu = $stmt->fetch();
 
 ?>
