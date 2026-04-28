@@ -2,13 +2,14 @@
 require 'auth.php';
 require '../../bdd/db.php';
 
-$stmt = $pdo->prepare("SELECT u.id, superadmin, username, nom AS etablissement FROM Utilisateurs AS u JOIN Etablissement AS e ON u.id_etablissement = e.id WHERE u.id = ?");
+$stmt = $pdo->prepare("SELECT u.id, superadmin, username, u.id_etablissement, nom AS etablissement FROM Utilisateurs AS u JOIN Etablissement AS e ON u.id_etablissement = e.id WHERE u.id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
 $_SESSION['user_id'] = $user['id'];
 $_SESSION['superadmin'] = $user['superadmin'];
 $_SESSION["username"] = $user["username"];
+$_SESSION["id_etablissement"] = $user["id_etablissement"];
 
 ?>
 
@@ -22,7 +23,7 @@ $_SESSION["username"] = $user["username"];
 <body>
     <h1>Mon Compte - <?= htmlspecialchars($user["username"]) ?></h1>
     <p>Vous êtes <?= $user['superadmin'] === 1 ? "Superadmin" : "Admin" ?>.</p>
-    <p>Votre tablissement : <?= htmlspecialchars($user["etablissement"]) ?></p>
+    <p>Votre établissement : <?= htmlspecialchars($user["etablissement"]) ?></p>
 
     <a href="modifier_mdp.php?id=<?= $user["id"] ?>">Modifier votre mot de passe.</a>
     <footer><a href="/tvtest/admin/index.php">Retour au Menu</a></footer>

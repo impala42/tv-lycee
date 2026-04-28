@@ -1,8 +1,9 @@
 <?php
+require '../utilisateurs/auth.php';
 require '../../bdd/db.php';
 
-$stmt = $pdo->prepare("SELECT * FROM TV");
-$stmt->execute();
+$stmt = $pdo->prepare("SELECT * FROM TV WHERE id_etablissement = ?");
+$stmt->execute([$_SESSION["id_etablissement"]]);
 $infos = $stmt->fetchAll();
 
 ?>
