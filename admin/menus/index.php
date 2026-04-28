@@ -12,6 +12,7 @@ if (!$date) {
 }
 
 // Chercher les menus
+$id_etab = $_SESSION["id_etablissement"];
 $stmt = $pdo->prepare("
     SELECT m.id, e.nom AS entree, p.nom AS plat, l.nom AS laitage, d.nom AS dessert FROM Menu AS m 
     JOIN Plat AS e ON m.id_entree = e.id 
@@ -20,9 +21,8 @@ $stmt = $pdo->prepare("
     JOIN Plat AS d ON m.id_dessert = d.id
     WHERE m.jour = ? AND m.id_etablissement = ?"
 );
-$stmt->execute([$date->format("Y-m-d")], $_SESSION["id_etablissement"]);
+$stmt->execute([$date->format("Y-m-d"), $id_etab]);
 $menu = $stmt->fetch();
-
 ?>
 
 <!DOCTYPE html>

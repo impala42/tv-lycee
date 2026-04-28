@@ -3,9 +3,22 @@ require '../utilisateurs/auth.php';
 require '../../bdd/db.php';
 require '../csrf.php';
 
-$stmt = $pdo->prepare("SELECT * FROM Information");
-$stmt->execute();
+
+$id_etab = $_SESSION['id_etablissement'];
+
+$stmt = $pdo->prepare("
+    SELECT titre, id 
+    FROM Information 
+    WHERE id IN (
+        SELECT id_info FROM AffichageInfo WHERE id_tv IN (
+            SELECT id FROM TV WHERE id_etablissement = ?
+        )
+    ) 
+    ORDER BY date_debut DESC;
+");
+$stmt->execute([$id_etab]);
 $infos = $stmt->fetchAll();
+
 
 $csrf = csrf_generate();
 ?>
