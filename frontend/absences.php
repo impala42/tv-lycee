@@ -1,28 +1,15 @@
 <?php
 require '../bdd/db.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $token = htmlspecialchars(trim($_GET['token'] ?? ''));
-
-    if (empty($token)) {
-        die('Erreur : le token est obligatoire.');
-    }
-
-    // On vérifie que la TV existe
-    $stmt = $pdo->prepare("SELECT COUNT(id) AS count FROM TV WHERE token = :token");
-    $stmt->execute([
-        ':token' => $token,
-    ]);
-    $count = $stmt->fetch()["count"];
+require 'script.php';
     
-    if ($count != 1) {
-        die("TV inexistante.");
-    }
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+    $token = htmlspecialchars(trim($_GET['token'] ?? ''));
+    $id_etab = obtenir_id_etablissement($pdo, $token);
 
     // On cherche les absences
-
-    $stmt = $pdo->prepare("SELECT professeur, matiere, date_debut, date_fin, champ_libre FROM Absence WHERE date_fin >= NOW() ORDER BY date_debut");
-    $stmt->execute();
+    $stmt = $pdo->prepare("SELECT professeur, matiere, date_debut, date_fin, champ_libre FROM Absence WHERE date_fin >= NOW() AND id_etablissement = ? ORDER BY date_debut");
+    $stmt->execute([$id_etab]);
     $rows = $stmt->fetchAll();
 
     header('Content-Type: application/json');

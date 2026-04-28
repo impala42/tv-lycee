@@ -1,23 +1,11 @@
 <?php
 require '../bdd/db.php';
+require 'script.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
     $token = htmlspecialchars(trim($_GET['token'] ?? ''));
-
-    if (empty($token)) {
-        die('Erreur : le token est obligatoire.');
-    }
-
-    // On vérifie que la TV existe
-    $stmt = $pdo->prepare("SELECT COUNT(id) AS count FROM TV WHERE token = :token");
-    $stmt->execute([
-        ':token' => $token,
-    ]);
-    $count = $stmt->fetch()["count"];
-    
-    if ($count != 1) {
-        die("TV inexistante.");
-    }
+    $id_etab = obtenir_id_etablissement($pdo, $token);
 
     // On cherche le menu
     $heure = (int)date('H');
@@ -61,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         LEFT JOIN Plat l ON m.id_laitage = l.id
         LEFT JOIN Plat d ON m.id_dessert = d.id
 
-        WHERE m.jour = ?
+        WHERE m.jour = ? AND m.id_etablissement = ?
     ");
-    $stmt->execute([$dateCible]);
+    $stmt->execute([$dateCible, $id_etab]);
     $menu = $stmt->fetchAll();
 
     header('Content-Type: application/json');
