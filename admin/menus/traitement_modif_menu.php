@@ -105,10 +105,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Et on ajoute le menu finalement
         $stmt = $pdo->prepare("
-            INSERT INTO Menu (jour, id_entree, id_plat_principal, id_laitage, id_dessert)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO Menu (jour, id_entree, id_plat_principal, id_laitage, id_dessert, id_etablissement)
+            VALUES (?, ?, ?, ?, ?, ?)
         ");
-        $stmt->execute([$date->format("Y-m-d"), $id_entree, $id_plat, $id_laitage, $id_dessert]);
+        $stmt->execute([$date->format("Y-m-d"), $id_entree, $id_plat, $id_laitage, $id_dessert, $_SESSION["id_etablissement"]]);
 
         $pdo->commit();
 

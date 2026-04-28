@@ -51,9 +51,20 @@ $menu = $stmt->fetch();
             <li> <?= htmlspecialchars($menu['laitage']) ?> </li>
             <li> <?= htmlspecialchars($menu['dessert']) ?> </li>
         </ul>
-        <a href="modifier_menu.php?id=<?= $menu["id"] ?>">Modifier ce menu</a>
+        <a href="modifier_menu.php?id=<?= $menu["id"] ?>">Modifier ce menu</a><br>
     <?php endif ?>
-
+    
+    <label for="datePicker">Voir le menu du  </label>
+    <input type="date" id="datePicker" onchange="redirectToDate(this.value)">
+    <script>
+        function redirectToDate(date) {
+            if (date) {
+            window.location.href = `index.php?date=${date}`;
+            }
+        }
+    </script>
+    
+    <?php if ($_SESSION["id_etablissement"] == 1) : // Si c'est au lycée Rudloff ?>
     <h2>Imprimer le menu d'une semaine</h2>
     
     <div class="cal">
@@ -68,6 +79,7 @@ $menu = $stmt->fetch();
     <div class="output" id="output">Aucune semaine sélectionnée</div>
 
     <script src="script/choix_semaine.js"></script>
+    <?php endif ?>
     
     <footer><a href="/tvtest/admin/index.php">Retour au Menu</a></footer>
 </body>
