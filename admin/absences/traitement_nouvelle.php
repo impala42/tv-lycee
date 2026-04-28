@@ -25,7 +25,7 @@ if (
         die("Erreur : la date de fin doit être après la date de début.");
     }
 
-    $stmt = $pdo->prepare("INSERT INTO Absence (date_debut, date_fin, professeur, matiere, champ_libre) VALUES (:date_debut, :date_fin, :professeur, :matiere, :champ_libre)");
+    $stmt = $pdo->prepare("INSERT INTO Absence (date_debut, date_fin, professeur, matiere, champ_libre, id_etablissement) VALUES (:date_debut, :date_fin, :professeur, :matiere, :champ_libre)");
 
     $stmt->execute([
         ':date_debut' => $date_debut,
@@ -33,6 +33,7 @@ if (
         ':professeur' => $professeur,
         ':matiere' => $matiere,
         ':champ_libre' => $champ_libre,
+        ':id_etablissement' => $_SESSION["id_etablissement"]
     ]);
 
     header('Location: index.php');

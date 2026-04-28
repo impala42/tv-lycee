@@ -5,8 +5,8 @@ require '../csrf.php';
 
 $csrf = csrf_generate();
 
-$stmt = $pdo->prepare("SELECT * FROM Absence ORDER BY date_debut DESC");
-$stmt->execute();
+$stmt = $pdo->prepare("SELECT * FROM Absence WHERE id_etablissement = ? ORDER BY date_debut DESC");
+$stmt->execute([$_SESSION["id_etablissement"]]);
 $absences = $stmt->fetchAll();
 
 ?>
