@@ -15,7 +15,12 @@ require "utilisateurs/auth.php";
     <a href="tv/liste_tv.php">TVs</a>
     <a href="absences/index.php">Absences</a>
     <a href="menus/index.php">Menus</a>
-    <?= ($_SESSION["superadmin"] == 1) ? '<a href="utilisateurs/liste.php">Comptes</a>' : ""?>
+    
+    <?php if ($_SESSION["superadmin"] == 1) : ?> 
+        <a href="utilisateurs/liste.php">Comptes</a>
+        <a href="avances/index.php">Avancés</a>
+    <?php endif; ?>
+
     <footer><a href="/tvtest/admin/index.php">Retour au Menu</a></footer>
 </body>
 </html>

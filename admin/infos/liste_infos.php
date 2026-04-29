@@ -39,15 +39,15 @@ $csrf = csrf_generate();
             <?= htmlspecialchars($info['titre']) ?>
             <a href="modifier_info.php?id=<?= $info['id'] ?>">Modifier</a>
             
-        <!-- Supprimer l'info -->
-        <form action="suppr_info.php" method="POST" style="display:inline">
-            <input type="hidden" name="id"         value="<?= $info['id'] ?>">
-            <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
-            <button type="submit"
-                    onclick="return confirm('Voulez-vous vraiment supprimer cette information ?')">
-                Supprimer
-            </button>
-        </form>
+            <!-- Supprimer l'info -->
+            <form action="suppr_info.php" method="POST" style="display:inline">
+                <input type="hidden" name="id"         value="<?= $info['id'] ?>">
+                <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
+                <button type="submit"
+                        onclick="return confirm('Voulez-vous vraiment supprimer cette information ?')">
+                    Supprimer
+                </button>
+            </form>
         </li>
     <?php endforeach; ?>
     </ul>
