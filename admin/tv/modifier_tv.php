@@ -13,7 +13,12 @@ $tv = $stmt->fetch();
 if (!$tv) die('TV introuvable.');
 
 // Récupération de tous les infos
-$stmtInfos = $pdo->prepare('SELECT i.* FROM Information AS i JOIN AffichageInfo AS ai ON ai.id_info = i.id JOIN TV ON ai.id_tv = TV.id WHERE id_etablissement = ?');
+$stmtInfos = $pdo->prepare('
+    SELECT i.* FROM Information AS i 
+    JOIN AffichageInfo AS ai ON ai.id_info = i.id 
+    JOIN TV ON ai.id_tv = TV.id 
+    WHERE id_etablissement = ? AND date_fin >= NOW()
+');
 $stmtInfos->execute([$_SESSION["id_etablissement"]]);
 $infos = $stmtInfos->fetchAll();
 
