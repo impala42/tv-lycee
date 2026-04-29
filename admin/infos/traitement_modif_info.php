@@ -43,6 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('SELECT lien_image FROM Information WHERE id = ?');
         $stmt->execute([$id]);
         $lien_image = $stmt->fetch()['lien_image'];
+    } 
+    else { // si ya une nouvelle on la supprime
+        $stmt = $pdo->prepare('SELECT lien_image FROM Information WHERE id = ?');
+        $stmt->execute([$id]);
+        $lien_ancienne_image = $stmt->fetch()["lien_image"];
+        if (!empty($lien_ancienne_image)) {
+            unlink("../../frontend/" . $lien_ancienne_image);
+        }
     }
 
     $date_debut = DateTimeImmutable::createFromFormat('Y-m-d', $date_debut);

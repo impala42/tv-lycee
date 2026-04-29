@@ -41,7 +41,7 @@
             <legend>Afficher sur les TVs :</legend>
             <?php foreach ($tvs as $tv): ?>
                 <label>
-                    <input type="checkbox" name="tvs[]" value="<?= (int)$tv['id'] ?>">
+                    <input type="checkbox" name="tvs[]" value="<?= (int)$tv['id'] ?>" checked>
                     <?= htmlspecialchars($tv['nom']) ?>
                 </label>
             <?php endforeach; ?>
