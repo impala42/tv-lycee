@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         die('Erreur : le token est obligatoire.');
     }
 
-    $stmt = $pdo->prepare("SELECT * FROM Information AS i JOIN AffichageInfo AS a ON i.id = a.id_info JOIN TV AS t ON t.id = a.id_tv WHERE i.date_debut <= NOW() AND i.date_fin >= NOW() AND t.token = :token");
+    $stmt = $pdo->prepare("SELECT * FROM Information AS i WHERE i.date_debut <= NOW() AND i.date_fin >= NOW() AND id IN (SELECT id_info FROM AffichageInfo WHERE id_tv = (SELECT id FROM TV WHERE token = :token))");
     $stmt->execute([
         ':token' => $token,
     ]);
