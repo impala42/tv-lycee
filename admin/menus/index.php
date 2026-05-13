@@ -32,6 +32,105 @@ $menu = $stmt->fetch();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Menus</title>
     <link rel="stylesheet" href="style/choix_semaine.css">
+    <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #3b2a1f, #f3e2c7);
+        color: #2b1b12;
+        text-align: center;
+    }
+
+    h1 {
+        color: #4a2c1d;
+        margin-top: 20px;
+    }
+
+    h2 {
+        color: #5a3824;
+    }
+
+    a {
+        color: #7a4b2a;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: #b45309;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        max-width: 500px;
+        margin: 20px auto;
+    }
+
+    li {
+        background: rgba(255,255,255,0.75);
+        margin: 8px 0;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #d6b48a;
+    }
+
+    input[type="date"] {
+        display: block;
+        margin: 10px auto;
+        padding: 6px;
+        border-radius: 8px;
+        border: 1px solid #c4a484;
+    }
+
+    button {
+        background: #8b5a2b;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #a16207;
+    }
+
+    footer {
+        text-align: center;
+        margin: 30px 0;
+    }
+
+    /* 🍗 cuisse de poulet */
+    body::after {
+        content: "🍗";
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        font-size: 80px;
+        opacity: 0.25;
+        transform: rotate(-15deg);
+        pointer-events: none;
+    }
+
+    /* 📅 IMPORTANT : on NE TOUCHE PAS structure, juste centrage visuel */
+    .cal {
+        margin: 20px auto;
+        display: inline-block;
+    }
+
+    .nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        margin: 10px 0;
+    }
+
+    #output {
+        margin-top: 10px;
+    }
+</style>
 </head>
 <body>
     <h1>Menus</h1>

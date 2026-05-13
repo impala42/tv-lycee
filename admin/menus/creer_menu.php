@@ -6,6 +6,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Ajouter un Menu</title>
+    <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #3b2a1f, #f3e2c7);
+        color: #2b1b12;
+    }
+
+    h1 {
+        text-align: center;
+        color: #4a2c1d;
+        margin-top: 20px;
+    }
+
+    form {
+        max-width: 800px;
+        margin: 20px auto;
+        background: rgba(255,255,255,0.75);
+        padding: 20px;
+        border-radius: 14px;
+        border: 1px solid #d6b48a;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    section {
+        background: rgba(255,255,255,0.6);
+        margin: 15px 0;
+        padding: 15px;
+        border-radius: 12px;
+        border: 1px solid #e2c59a;
+    }
+
+    label {
+        display: block;
+        margin: 5px 0;
+        font-weight: bold;
+        color: #4a2c1d;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid #c4a484;
+    }
+
+    input[type="checkbox"] {
+        margin-right: 6px;
+    }
+
+    button {
+        display: block;
+        margin: 20px auto;
+        background: #8b5a2b;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background: #a16207;
+    }
+
+    /* 🍗 poulet rôti décoratif */
+    body::after {
+        content: "🍗";
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        font-size: 90px;
+        opacity: 0.25;
+        transform: rotate(-10deg);
+        pointer-events: none;
+    }
+
+</style>
 </head>
 <body>
     <h1>Ajouter un Menu</h1>
